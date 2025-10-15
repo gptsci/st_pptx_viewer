@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "st-pptx-viewer"
-version = "1.2.0"
+version = "1.2.1"
 description = "A Streamlit component for rendering PowerPoint presentations using PptxViewJS"
 readme = "README.md"
 authors = [{name = "PptxViewJS Contributors"}]
@@ -27,10 +27,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/gptsci/js-slide-viewer"
-Documentation = "https://github.com/gptsci/js-slide-viewer/blob/main/st_pptx_viewer/README.md"
-Repository = "https://github.com/gptsci/js-slide-viewer"
-"Bug Reports" = "https://github.com/gptsci/js-slide-viewer/issues"
+Homepage = "https://gptsci.com/pptxviewjs/"
+Documentation = "https://github.com/gptsci/st_pptx_viewer/blob/main/st_pptx_viewer/README.md"
+Repository = "https://github.com/gptsci/st_pptx_viewer"
+"Bug Reports" = "https://github.com/gptsci/st_pptx_viewer/issues"
 
 [tool.setuptools]
 packages = ["st_pptx_viewer"]
