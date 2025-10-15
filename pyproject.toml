@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,12 +8,11 @@ version = "1.2.0"
 description = "A Streamlit component for rendering PowerPoint presentations using PptxViewJS"
 readme = "README.md"
 authors = [{name = "PptxViewJS Contributors"}]
-license = {text = "MIT"}
+license = "MIT"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -33,4 +32,10 @@ Homepage = "https://github.com/gptsci/js-slide-viewer"
 Documentation = "https://github.com/gptsci/js-slide-viewer/blob/main/st_pptx_viewer/README.md"
 Repository = "https://github.com/gptsci/js-slide-viewer"
 "Bug Reports" = "https://github.com/gptsci/js-slide-viewer/issues"
+
+[tool.setuptools]
+packages = ["st_pptx_viewer"]
+
+[tool.setuptools.package-dir]
+st_pptx_viewer = "."
 
