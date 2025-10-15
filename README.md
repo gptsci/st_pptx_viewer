@@ -74,7 +74,7 @@ pip install streamlit
 pip install -e ./st_pptx_viewer
 ```
 
-### From PyPI (when published)
+### From PyPI
 ```bash
 pip install st-pptx-viewer
 ```
@@ -529,108 +529,6 @@ config = PptxViewerConfig(
     enable_keyboard=True,
     custom_css=".toolbar { background: blue; }"
 )
-```
-
-## Troubleshooting
-
-### Installation Issues
-
-**Problem: "Module not found"**
-
-**Solution:**
-```bash
-pip install -e ./st_pptx_viewer
-```
-
-### CDN Loading Issues
-
-**Problem: "Failed to load PptxViewJS from CDN"**
-
-**Solutions:**
-1. Check your internet connection
-2. Verify CDN is accessible: https://cdn.jsdelivr.net/npm/pptxviewjs/dist/PptxViewJS.min.js
-3. Use a local bundle instead:
-
-```python
-config = PptxViewerConfig(
-    pptxviewjs_path="/path/to/PptxViewJS.min.js"
-)
-pptx_viewer(uploaded, config=config)
-```
-
-### Presentation Not Rendering
-
-**Checklist:**
-1. Ensure the PPTX file is valid and not corrupted
-2. Check browser console (F12) for JavaScript errors
-3. Try with a simpler presentation first
-4. Verify file is actually a .pptx format
-
-**Solution for debugging:**
-```python
-# Check file details
-if uploaded:
-    st.write(f"File name: {uploaded.name}")
-    st.write(f"File size: {uploaded.size} bytes")
-    st.write(f"File type: {uploaded.type}")
-```
-
-### Layout Issues
-
-**Problem: Slides appear cut off or content is missing**
-
-**Solution:** Increase the width parameter, especially when using `layout="wide"`:
-
-```python
-# For wide layouts, use 1600-1800px
-st.set_page_config(layout="wide")
-config = PptxViewerConfig(width=1700)
-pptx_viewer(uploaded, config=config)
-```
-
-**Other layout adjustments:**
-- Adjust `width` and `height` in configuration
-- Use `component_height` to control total iframe height
-- Add custom CSS via `custom_css` parameter
-
-### Styling Not Applying
-
-**Solutions:**
-1. Use `!important` in CSS:
-   ```python
-   custom_css=".toolbar button { background: red !important; }"
-   ```
-2. Check CSS syntax is valid
-3. Inspect in browser dev tools (F12)
-4. Verify CSS is in `custom_css` parameter
-
-### Multiple Viewers Conflicting
-
-**Problem:** Two viewers interfering with each other
-
-**Solution:** Use unique keys:
-```python
-pptx_viewer(file1, key="viewer1")
-pptx_viewer(file2, key="viewer2")
-```
-
-### Keyboard Shortcuts Not Working
-
-**Solution:** Ensure keyboard navigation is enabled:
-```python
-config = PptxViewerConfig(enable_keyboard=True)
-pptx_viewer(file, config=config)
-```
-
-### Viewer Too Small/Large
-
-**Solution:** Adjust width and height:
-```python
-config = PptxViewerConfig(
-    width=1200,      # Adjust canvas width
-    height=675,      # Or None for auto
-)
-pptx_viewer(uploaded, config=config)
 ```
 
 ## Performance Tips
