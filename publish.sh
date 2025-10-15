@@ -113,7 +113,13 @@ ls -lh dist/
 if [ "$TARGET" != "build-only" ]; then
     echo ""
     echo -e "${YELLOW}Uploading to $TARGET...${NC}"
-    python3 -m twine upload $REPO_FLAG dist/*
+    
+    # Use verbose mode and explicit dist file pattern for better reliability
+    if [ "$TARGET" = "testpypi" ]; then
+        python3 -m twine upload --verbose --repository testpypi dist/*.whl dist/*.tar.gz
+    else
+        python3 -m twine upload --verbose dist/*.whl dist/*.tar.gz
+    fi
     
     if [ $? -eq 0 ]; then
         echo ""
