@@ -448,6 +448,33 @@ def pptx_viewer(
             return bytes;
           }}
 
+          // Prevent PptxViewJS from resizing the canvas buffer
+          let lockedWidth = null;
+          let lockedHeight = null;
+          
+          const originalWidthDescriptor = Object.getOwnPropertyDescriptor(HTMLCanvasElement.prototype, 'width');
+          const originalHeightDescriptor = Object.getOwnPropertyDescriptor(HTMLCanvasElement.prototype, 'height');
+          
+          Object.defineProperty(canvas, 'width', {{
+            get: function() {{ return lockedWidth !== null ? lockedWidth : originalWidthDescriptor.get.call(this); }},
+            set: function(val) {{ 
+              if (lockedWidth === null) {{
+                originalWidthDescriptor.set.call(this, val);
+              }}
+              // Silently block resize attempts when locked
+            }}
+          }});
+          
+          Object.defineProperty(canvas, 'height', {{
+            get: function() {{ return lockedHeight !== null ? lockedHeight : originalHeightDescriptor.get.call(this); }},
+            set: function(val) {{ 
+              if (lockedHeight === null) {{
+                originalHeightDescriptor.set.call(this, val);
+              }}
+              // Silently block resize attempts when locked
+            }}
+          }});
+
           function applyCanvasAspect(viewerInstance) {{
             const processor = viewerInstance && viewerInstance.processor;
             if (!processor || typeof processor.getSlideDimensions !== 'function') {{
@@ -460,15 +487,31 @@ def pptx_viewer(
             const aspect = dims.cy / dims.cx;
             const targetWidth = desiredWidth;
             const targetHeight = Math.max(120, Math.round(targetWidth * aspect));
+            
+            // HIGH-RES: Set canvas buffer at high resolution for crisp rendering
+            const dpr = window.devicePixelRatio || 1;
+            const scale = Math.max(2, dpr);
+            const bufferWidth = Math.round(targetWidth * scale);
+            const bufferHeight = Math.round(targetHeight * scale);
+            
+            // Temporarily unlock to set size, then lock
+            lockedWidth = null;
+            lockedHeight = null;
+            canvas.width = bufferWidth;
+            canvas.height = bufferHeight;
+            lockedWidth = bufferWidth;
+            lockedHeight = bufferHeight;
+            
+            // CSS display size (smaller than buffer for high-DPI effect)
             canvas.style.width = targetWidth + 'px';
             canvas.style.height = targetHeight + 'px';
-            canvas.width = targetWidth;
-            canvas.height = targetHeight;
+            
             const wrap = document.querySelector('.wrap');
             if (wrap) {{
               wrap.style.width = targetWidth + 'px';
               wrap.style.maxWidth = targetWidth + 'px';
             }}
+            
             postFrameHeight();
           }}
 
@@ -511,7 +554,7 @@ def pptx_viewer(
               viewer.loadFile(bytes)
                 .then(function() {{
                   applyCanvasAspect(viewer);
-                  return viewer.render(canvas, {{ slideIndex: initialSlide }});
+                  return viewer.renderSlide(initialSlide, canvas);
                 }})
                 .then(updateStatus)
                 .catch(function(err) {{
@@ -560,6 +603,6 @@ def pptx_viewer(
         toolbar_height = 50 if config.show_toolbar else 0
         component_height = int(canvas_width * 0.75 + toolbar_height + 60)
     
-    # Render component
-    components.html(html, height=component_height, scrolling=False)
+    # Render component with explicit width to prevent iframe constraint
+    components.html(html, height=component_height, width=canvas_width, scrolling=False)
 

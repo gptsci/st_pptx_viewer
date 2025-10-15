@@ -14,12 +14,12 @@ if readme_path.exists():
 
 setup(
     name="st-pptx-viewer",
-    version="1.0.0",
+    version="1.2.0",
     author="PptxViewJS Contributors",
     description="A Streamlit component for rendering PowerPoint presentations using PptxViewJS",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/js-slide-viewer",
+    url="https://github.com/gptsci/js-slide-viewer",
     packages=["st_pptx_viewer"],
     package_dir={"st_pptx_viewer": "."},
     classifiers=[
@@ -40,8 +40,8 @@ setup(
     ],
     keywords="streamlit pptx powerpoint viewer presentation component",
     project_urls={
-        "Bug Reports": "https://github.com/yourusername/js-slide-viewer/issues",
-        "Source": "https://github.com/yourusername/js-slide-viewer",
+        "Bug Reports": "https://github.com/gptsci/js-slide-viewer/issues",
+        "Source": "https://github.com/gptsci/js-slide-viewer",
     },
     include_package_data=True,
 )

@@ -7,6 +7,6 @@ in a web browser with interactive controls.
 
 from .viewer import pptx_viewer, PptxViewerConfig
 
-__version__ = "1.0.0"
+__version__ = "1.2.0"
 __all__ = ["pptx_viewer", "PptxViewerConfig"]
 

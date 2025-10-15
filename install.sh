@@ -16,7 +16,8 @@ fi
 
 # Step 1: Check Python version
 echo "Step 1: Checking Python version..."
-python_version=$(python3 --version 2>&1 | grep -oP '(?<=Python )\d+\.\d+')
+# Use sed instead of grep -P for macOS compatibility
+python_version=$(python3 --version 2>&1 | sed -n 's/Python \([0-9]*\.[0-9]*\).*/\1/p')
 major_version=$(echo $python_version | cut -d. -f1)
 minor_version=$(echo $python_version | cut -d. -f2)
 
